@@ -1,9 +1,12 @@
 <h1>University Management System</h1>
 
-📚 Description
+<h2>📚 Description</h2>
+
 This project is a <b>University Management System</b>, developed in C#, designed to help manage information related to schools, professors, courses, and students within a university environment. The system supports various operations, such as registering schools, assigning professors, managing courses, and enrolling students.
 
 The project is written in Spanish to facilitate understanding, as it is intended for educational purposes in a university setting. The goal is to provide a simple, interactive console-based application that allows users to manage a university's academic structure.
+
+![image](https://github.com/user-attachments/assets/b9dcec55-29e6-4016-91ef-14c683a2a57a)
 
 <h2>🚀 Features</h2>
 
