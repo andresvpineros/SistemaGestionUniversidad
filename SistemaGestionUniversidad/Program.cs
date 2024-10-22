@@ -116,51 +116,126 @@ public class Program
                         Profesor profesor = null;
                         Escuela escuela = null;
 
-                        Console.Write("Ingrese el ID del profesor que desea asignar a una escuela: ");
-                        string idProfesorInput = Console.ReadLine();
-                        if (int.TryParse(idProfesorInput, out int idProfesor))
+                        // Validación del ID del profesor
+                        if (Universidad.Profesores.Count > 0)
                         {
-                            // Verificar si el profesor ya existe en la universidad
-                            profesor = Universidad.Profesores.FirstOrDefault(p => p.Id == idProfesor);
-
-                            if (profesor == null)
+                            while (profesor == null)
                             {
-                                Console.WriteLine("[ERROR] No se encontró un profesor con ese ID en la universidad.");
-                            }
+                                Console.WriteLine($"\n---------------------");
 
-                            // Solicitar el ID de la escuela
-                            Console.Write("Ingrese el ID de la escuela a la que desea asignar el profesor: ");
-                            string idEscuelaInput = Console.ReadLine();
-
-                            if (int.TryParse(idEscuelaInput, out int idEscuela))
-                            {
-                                // Buscar la escuela en la universidad
-                                escuela = Universidad.Escuelas.FirstOrDefault(e => e.Id == idEscuela);
-
-                                if (escuela == null)
+                                Console.WriteLine("Profesores registrados:");
+                                foreach (var profesorItem in Universidad.Profesores)
                                 {
-                                    Console.WriteLine("[ERROR] No se encontró una escuela con ese ID.");
+                                    Console.WriteLine($"- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}");
                                 }
-                                else if (escuela.Profesores.Any(p => p.Id == profesor.Id))
+
+                                Console.WriteLine($"\n---------------------");
+
+                                Console.Write("Ingrese el ID del profesor que desea asignar a una escuela: ");
+                                string idProfesorInput = Console.ReadLine();
+
+                                if (int.TryParse(idProfesorInput, out int idProfesor))
                                 {
-                                    // Validar que el profesor no esté ya registrado en esta escuela
-                                    Console.WriteLine($"[ERROR] El profesor {profesor.Nombre} ya está asignado a la escuela {escuela.Nombre}.");
+                                    // Verificar si el profesor ya existe en la universidad
+                                    profesor = Universidad.Profesores.FirstOrDefault(p => p.Id == idProfesor);
+
+                                    if (profesor == null)
+                                    {
+                                        Console.WriteLine("[ERROR] No se encontró un profesor con ese ID en la universidad. Intente de nuevo.");
+                                    }
                                 }
                                 else
                                 {
-                                    // Asignar el profesor a la escuela
-                                    escuela.Profesores.Add(profesor);
-                                    Console.WriteLine($"[EXITO] Profesor {profesor.Nombre} asignado exitosamente a la escuela {escuela.Nombre}.");
+                                    Console.WriteLine("[ERROR] ID de profesor no válido. Intente de nuevo.");
                                 }
-                            }
-                            else
-                            {
-                                Console.WriteLine("[ERROR] ID de escuela no válido.");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("[ERROR] ID de profesor no válido.");
+                            Console.WriteLine("[ERROR] No hay profesores registrados.");
+                            break;
+                        }
+                        
+
+                        // Validación del ID de la escuela
+
+                        if (Universidad.Escuelas.Count > 0)
+                        {
+                            while (escuela == null)
+                            {
+                                Console.WriteLine($"\n---------------------");
+
+                                Console.WriteLine("Escuelas registradas:");
+
+                                foreach (var escuelaList in Universidad.Escuelas)
+                                {
+                                    Console.WriteLine($"\n- ID: {escuelaList.Id}, Nombre: {escuelaList.Nombre}");
+
+                                    if (escuelaList.Profesores.Count > 0)
+                                    {
+                                        Console.WriteLine("  Profesores asignados:");
+                                        foreach (var profesorItem in escuelaList.Profesores)
+                                        {
+                                            Console.WriteLine($"    - ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("  No hay profesores asignados a esta escuela.");
+                                    }
+
+                                    if (escuelaList.Cursos.Count > 0)
+                                    {
+                                        Console.WriteLine("  Cursos asignados:");
+                                        foreach (var cursoItem in escuelaList.Cursos)
+                                        {
+                                            Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Departamento: {cursoItem.Departamento}, Escuela: {cursoItem.Escuela}, Profesor: {cursoItem.Profesor}");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("  No hay cursos asignados a esta escuela.");
+                                    }
+                                }
+
+                                Console.WriteLine($"\n---------------------");
+
+                                Console.Write("Ingrese el ID de la escuela a la que desea asignar el profesor: ");
+                                string idEscuelaInput = Console.ReadLine();
+
+                                if (int.TryParse(idEscuelaInput, out int idEscuela))
+                                {
+                                    // Buscar la escuela en la universidad
+                                    escuela = Universidad.Escuelas.FirstOrDefault(e => e.Id == idEscuela);
+
+                                    if (escuela == null)
+                                    {
+                                        Console.WriteLine("[ERROR] No se encontró una escuela con ese ID. Intente de nuevo.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("[ERROR] ID de escuela no válido. Intente de nuevo.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("[ERROR] No hay escuelas registradas.");
+                            break;
+                        }
+                        
+
+                        // Validar que el profesor no esté ya registrado en esta escuela
+                        if (escuela.Profesores.Any(p => p.Id == profesor.Id))
+                        {
+                            Console.WriteLine($"[ERROR] El profesor {profesor.Nombre} ya está asignado a la escuela {escuela.Nombre}.");
+                        }
+                        else
+                        {
+                            // Asignar el profesor a la escuela
+                            escuela.Profesores.Add(profesor);
+                            Console.WriteLine($"[EXITO] Profesor {profesor.Nombre} asignado exitosamente a la escuela {escuela.Nombre}.");
                         }
                         break;
 
@@ -186,6 +261,20 @@ public class Program
                                 else
                                 {
                                     Console.WriteLine("  No hay profesores asignados a esta escuela.");
+                                }
+
+
+                                if (escuelaList.Cursos.Count > 0)
+                                {
+                                    Console.WriteLine("  Cursos asignados:");
+                                    foreach (var cursoItem in escuelaList.Cursos)
+                                    {
+                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Departamento: {cursoItem.Departamento}, Escuela: {cursoItem.Escuela}, Profesor: {cursoItem.Profesor}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay cursos asignados a esta escuela.");
                                 }
                             }
                         }
@@ -420,11 +509,15 @@ public class Program
                                     // Seleccionar un departamento existente
                                     if (Universidad.Departamentos.Count > 0)
                                     {
+                                        Console.WriteLine($"\n---------------------");
+
                                         Console.WriteLine("Departamentos registrados:");
                                         foreach (var dep in Universidad.Departamentos)
                                         {
-                                            Console.WriteLine($"ID: {dep.Id}, Nombre: {dep.Nombre}");
+                                            Console.WriteLine($"- ID: {dep.Id}, Nombre: {dep.Nombre}");
                                         }
+
+                                        Console.WriteLine($"\n---------------------");
 
                                         Console.Write("Ingrese el ID del departamento a asignar: ");
                                         string idDepartamentoInput = Console.ReadLine();
