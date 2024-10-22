@@ -37,7 +37,7 @@ The project is written in Spanish to facilitate understanding, as it is intended
 
 - Add new departments to the university.
 - View departments and the courses associated with them.
-- 
+  
 <h2>🎯 Objectives</h2>
 
 This project was developed with university learning objectives in mind. It aims to demonstrate key object-oriented programming concepts, such as:
