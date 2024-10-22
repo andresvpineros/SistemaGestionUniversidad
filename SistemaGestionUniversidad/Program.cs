@@ -189,7 +189,7 @@ public class Program
                                         Console.WriteLine("  Cursos asignados:");
                                         foreach (var cursoItem in escuelaList.Cursos)
                                         {
-                                            Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Departamento: {cursoItem.Departamento}, Escuela: {cursoItem.Escuela}, Profesor: {cursoItem.Profesor}");
+                                            Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}");
                                         }
                                     }
                                     else
@@ -269,7 +269,7 @@ public class Program
                                     Console.WriteLine("  Cursos asignados:");
                                     foreach (var cursoItem in escuelaList.Cursos)
                                     {
-                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Departamento: {cursoItem.Departamento}, Escuela: {cursoItem.Escuela}, Profesor: {cursoItem.Profesor}");
+                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}");
                                     }
                                 }
                                 else
@@ -492,9 +492,15 @@ public class Program
                                     {
                                         Console.Write("Ingrese el código único del curso: ");
                                         codigoCurso = Console.ReadLine();
-                                        if (int.TryParse(codigoCurso, out int codigoCursoInt))
+
+                                        // Verificar si el campo está vacío
+                                        if (string.IsNullOrWhiteSpace(codigoCurso))
                                         {
                                             Console.WriteLine("[AVISO] El código del curso no puede estar vacío.");
+                                        }
+                                        else if (!int.TryParse(codigoCurso, out int codigoCursoInt))
+                                        {
+                                            Console.WriteLine("[ERROR] El código del curso debe ser un número válido.");
                                         }
                                         else if (escuelaSeleccionada.Cursos.Any(c => c.Codigo == codigoCursoInt))
                                         {
@@ -563,10 +569,10 @@ public class Program
                                                                 Nombre = nombreCurso,
                                                                 Departamento = departamento,
                                                                 Escuela = escuelaSeleccionada,
-                                                                Profesor = profesorCurso
                                                             };
 
                                                             escuelaSeleccionada.Cursos.Add(nuevoCurso);
+                                                            departamento.Cursos.Add(nuevoCurso);
                                                             Console.WriteLine($"[EXITO] Curso '{nombreCurso}' agregado exitosamente a la escuela {escuelaSeleccionada.Nombre}.");
                                                         }
                                                     }
@@ -656,6 +662,8 @@ public class Program
                         break;
 
                     case "4":
+                        Console.WriteLine("Consultar cursos:");
+
                         Console.WriteLine($"\n---------------------");
 
                         var cursosRegistrados = Universidad.Escuelas
@@ -680,6 +688,8 @@ public class Program
                         break;
 
                     case "5":
+                        Console.WriteLine("Consultar departamentos:");
+
                         Console.WriteLine($"\n---------------------");
 
                         if (Universidad.Departamentos.Count > 0)
@@ -688,13 +698,14 @@ public class Program
 
                             foreach (var departamentoItem in Universidad.Departamentos)
                             {
-                                Console.WriteLine($"- ID: {departamentoItem.Id}, Nombre: {departamentoItem.Nombre} - Cursos:");
+                                Console.WriteLine($"- ID: {departamentoItem.Id}, Nombre: {departamentoItem.Nombre}:");
 
                                 if (departamentoItem.Cursos.Count > 0)
                                 {
+                                    Console.WriteLine("  Cursos:");
                                     foreach (var cursoItem in departamentoItem.Cursos)
                                     {
-                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}");
+                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {cursoItem.Profesor.Nombre}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
                                     }
                                 }
                                 else
@@ -712,6 +723,8 @@ public class Program
                         break;
 
                     case "6":
+                        Console.WriteLine("Consultar escuelas:");
+
                         Console.WriteLine($"\n---------------------");
 
                         if (Universidad.Escuelas.Count > 0)
@@ -742,7 +755,7 @@ public class Program
                                     Console.WriteLine("  Cursos:");
                                     foreach (var curso in escuela.Cursos)
                                     {
-                                        Console.WriteLine($"    - Código: {curso.Codigo}, Nombre: {curso.Nombre}, Profesor: {curso.Profesor.Nombre}, Departamento: {curso.Departamento.Nombre}");
+                                        Console.WriteLine($"    - Código: {curso.Codigo}, Nombre: {curso.Nombre}, Profesor: {curso.Profesor.Nombre}, Departamento: {curso.Departamento.Nombre}, Escuela: {curso.Escuela.Nombre}");
                                     }
                                 }
                                 else
