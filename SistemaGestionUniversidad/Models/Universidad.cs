@@ -10,12 +10,14 @@ namespace SistemaGestionUniversidad.Models
     {
         public List<Escuela> Escuelas { get; set; }
         public List<Profesor> Profesores { get; set; }
+        public List<Estudiante> Estudiantes { get; set; }
         public List<Departamento> Departamentos { get; set; }
 
         public Universidad()
         {
             Escuelas = new List<Escuela>();
             Profesores = new List<Profesor>();
+            Estudiantes = new List<Estudiante>();
             Departamentos = new List<Departamento>();
         }
 
@@ -28,6 +30,11 @@ namespace SistemaGestionUniversidad.Models
         {
             Profesores.Add(profesor);
         }
+        public void AgregarEstudiante(Estudiante estudiante)
+        {
+            Estudiantes.Add(estudiante);
+        }
+
         public void AgregarDepartamento(Departamento departamento)
         {
             Departamentos.Add(departamento);
@@ -41,6 +48,10 @@ namespace SistemaGestionUniversidad.Models
         public List<Profesor> getProfesores()
         {
             return Profesores;
+        }
+        public List<Estudiante> getEstudiantes()
+        {
+            return Estudiantes;
         }
 
         public List<Departamento> getDepartamentos()

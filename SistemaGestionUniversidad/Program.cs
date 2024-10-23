@@ -36,7 +36,7 @@ public class Program
             Console.WriteLine("2. Gestionar Profesores");
             Console.WriteLine("3. Gestionar Cursos");
             Console.WriteLine("4. Gestionar Estudiantes");
-            Console.WriteLine("5. Salir");
+            Console.WriteLine("0. Salir");
 
             Console.Write($"\nSeleccione una opción: ");
             string opcion = Console.ReadLine();
@@ -52,7 +52,10 @@ public class Program
                 case "3":
                     GestionarCursos();
                     break;
-                case "5":
+                case "4":
+                    GestionarEstudiantes();
+                    break;
+                case "0":
                     continuar = false;
                     Console.WriteLine("Saliendo del sistema...");
                     break;
@@ -74,7 +77,7 @@ public class Program
                 Console.WriteLine("2. Asignar profesor a una escuela");
                 Console.WriteLine("3. Ver escuelas registradas");
                 Console.WriteLine("4. Ver profesores registrados en la universidad");
-                Console.WriteLine("5. Retroceder al menú principal");
+                Console.WriteLine("0. Retroceder al menú principal");
 
                 Console.Write($"\nSeleccione una opción: ");
                 string opcion = Console.ReadLine();
@@ -123,13 +126,26 @@ public class Program
                             {
                                 Console.WriteLine($"\n---------------------");
 
-                                Console.WriteLine("Profesores registrados:");
+                                Console.WriteLine($"Profesores registrados en la Universidad: ");
                                 foreach (var profesorItem in Universidad.Profesores)
                                 {
-                                    Console.WriteLine($"- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}");
+                                    Console.WriteLine($"\n- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}:");
+
+                                    if (profesorItem.CursosImpartidos.Count > 0)
+                                    {
+                                        Console.WriteLine("  Cursos:");
+                                        foreach (var cursoImpartidoItem in profesorItem.CursosImpartidos)
+                                        {
+                                            Console.WriteLine($"    - Código: {cursoImpartidoItem.Codigo}, Nombre: {cursoImpartidoItem.Nombre}, Profesor: {(cursoImpartidoItem.Profesor != null ? cursoImpartidoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoImpartidoItem.Departamento.Nombre}, Escuela: {cursoImpartidoItem.Escuela.Nombre}");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("  No hay cursos asociados a este profesor.");
+                                    }
                                 }
 
-                                Console.WriteLine($"\n---------------------");
+                                Console.WriteLine($"---------------------\n");
 
                                 Console.Write("Ingrese el ID del profesor que desea asignar a una escuela: ");
                                 string idProfesorInput = Console.ReadLine();
@@ -165,11 +181,11 @@ public class Program
                             {
                                 Console.WriteLine($"\n---------------------");
 
-                                Console.WriteLine("Escuelas registradas:");
+                                Console.WriteLine("Escuelas registradas: ");
 
                                 foreach (var escuelaList in Universidad.Escuelas)
                                 {
-                                    Console.WriteLine($"\n- ID: {escuelaList.Id}, Nombre: {escuelaList.Nombre}");
+                                    Console.WriteLine($"\n- ID: {escuelaList.Id}, Nombre: {escuelaList.Nombre}:");
 
                                     if (escuelaList.Profesores.Count > 0)
                                     {
@@ -195,10 +211,10 @@ public class Program
                                     else
                                     {
                                         Console.WriteLine("  No hay cursos asignados a esta escuela.");
-                                    }
+                                    } 
                                 }
 
-                                Console.WriteLine($"\n---------------------");
+                                Console.WriteLine($"---------------------\n");
 
                                 Console.Write("Ingrese el ID de la escuela a la que desea asignar el profesor: ");
                                 string idEscuelaInput = Console.ReadLine();
@@ -244,11 +260,11 @@ public class Program
 
                         if (Universidad.Escuelas.Count > 0)
                         {
-                            Console.WriteLine($"Escuelas registradas:");
+                            Console.WriteLine($"Escuelas registradas: ");
 
                             foreach (var escuelaList in Universidad.Escuelas)
                             {
-                                Console.WriteLine($"\n- ID: {escuelaList.Id}, Nombre: {escuelaList.Nombre}");
+                                Console.WriteLine($"\n- ID: {escuelaList.Id}, Nombre: {escuelaList.Nombre}:");
 
                                 if (escuelaList.Profesores.Count > 0)
                                 {
@@ -291,10 +307,23 @@ public class Program
 
                         if (Universidad.Profesores.Count > 0)
                         {
-                            Console.WriteLine("Profesores registrados en la Universidad:");
+                            Console.WriteLine($"Profesores registrados en la Universidad: ");
                             foreach (var profesorItem in Universidad.Profesores)
                             {
-                                Console.WriteLine($"- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}");
+                                Console.WriteLine($"\n- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}:");
+
+                                if (profesorItem.CursosImpartidos.Count > 0)
+                                {
+                                    Console.WriteLine("  Cursos:");
+                                    foreach (var cursoImpartidoItem in profesorItem.CursosImpartidos)
+                                    {
+                                        Console.WriteLine($"    - Código: {cursoImpartidoItem.Codigo}, Nombre: {cursoImpartidoItem.Nombre}, Profesor: {(cursoImpartidoItem.Profesor != null ? cursoImpartidoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoImpartidoItem.Departamento.Nombre}, Escuela: {cursoImpartidoItem.Escuela.Nombre}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay cursos asociados a este profesor.");
+                                }
                             }
                         }
                         else
@@ -305,7 +334,7 @@ public class Program
 
                         break;
 
-                    case "5":
+                    case "0":
                         volverMenuPrincipal = true; // Opción para retroceder al menú principal
                         break;
 
@@ -326,7 +355,7 @@ public class Program
                 Console.WriteLine("2. Asignar curso a un profesor");
                 Console.WriteLine("3. Ver profesores registrados");
                 Console.WriteLine("4. Ver cursos impartidos");
-                Console.WriteLine("5. Retroceder al menú principal");
+                Console.WriteLine("0. Retroceder al menú principal");
 
                 Console.Write($"\nSeleccione una opción: ");
                 string opcion = Console.ReadLine();
@@ -384,17 +413,173 @@ public class Program
                         break;
 
                     case "2":
+                        Profesor profesor = null;
+                        Curso curso = null;
+
+                        // Verificar si hay profesores registrados
+                        if (Universidad.Profesores.Count == 0)
+                        {
+                            Console.WriteLine("[ERROR] No hay profesores registrados en la universidad.");
+                            break;
+                        }
+
+                        // Verificar si hay cursos registrados
+                        if (!Universidad.Escuelas.Any(e => e.Cursos.Count > 0))
+                        {
+                            Console.WriteLine("[ERROR] No hay cursos registrados en la universidad.");
+                            break;
+                        }
+
+                        // Solicitar ID del profesor
+                        bool profesorValido = false;
+
+                        Console.WriteLine($"\n---------------------");
+
+                        Console.WriteLine($"Profesores registrados: ");
+                        foreach (var profesorItem in Universidad.Profesores)
+                        {
+                            Console.WriteLine($"\n- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}:");
+
+                            if (profesorItem.CursosImpartidos.Count > 0)
+                            {
+                                Console.WriteLine("  Cursos:");
+                                foreach (var cursoImpartidoItem in profesorItem.CursosImpartidos)
+                                {
+                                    Console.WriteLine($"    - Código: {cursoImpartidoItem.Codigo}, Nombre: {cursoImpartidoItem.Nombre}, Profesor: {(cursoImpartidoItem.Profesor != null ? cursoImpartidoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoImpartidoItem.Departamento.Nombre}, Escuela: {cursoImpartidoItem.Escuela.Nombre}");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("  No hay cursos asociados a este profesor.");
+                            }
+                        }
+
+                        Console.WriteLine($"---------------------\n");
+
+
+                        do
+                        {
+                            Console.Write("Ingrese el ID del profesor: ");
+                            string idProfesorInput = Console.ReadLine();
+                            if (int.TryParse(idProfesorInput, out int idProfesorAsignado))
+                            {
+                                // Buscar si el profesor existe en la universidad
+                                profesor = Universidad.Profesores.FirstOrDefault(p => p.Id == idProfesorAsignado);
+                                if (profesor == null)
+                                {
+                                    Console.WriteLine("[ERROR] No se encontró un profesor con ese ID. Intente nuevamente.");
+                                }
+                                else
+                                {
+                                    profesorValido = true;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("[ERROR] ID de profesor no válido. Intente nuevamente.");
+                            }
+                        } while (!profesorValido);
+
+                        // Solicitar código del curso
+                        bool cursoValido = false;
+
+                        Console.WriteLine($"\n---------------------");
+
+                        var cursosImpartidos = Universidad.Escuelas
+                            .SelectMany(escuela => escuela.Cursos)
+                            .ToList();
+
+                        if (cursosImpartidos.Count > 0)
+                        {
+                            Console.WriteLine($"Cursos registrados en la Universidad: ");
+                            foreach (var cursoItem in cursosImpartidos)
+                            {
+                                Console.WriteLine($"\n- Código: {cursoItem.Codigo}, Curso: {cursoItem.Nombre}, Escuela: {cursoItem.Escuela.Nombre}, Departamento: {cursoItem.Departamento.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay cursos registrados en la universidad.");
+                        }
+
+                        Console.WriteLine($"---------------------\n");
+
+                        do
+                        {
+                            Console.Write("Ingrese el código del curso a asignar: ");
+                            string codigoCursoInput = Console.ReadLine();
+                            if (int.TryParse(codigoCursoInput, out int codigoCurso))
+                            {
+                                // Verificar si el curso existe en la universidad
+                                curso = Universidad.Escuelas
+                                    .SelectMany(e => e.Cursos)
+                                    .FirstOrDefault(c => c.Codigo == codigoCurso);
+
+                                if (curso == null)
+                                {
+                                    Console.WriteLine("[ERROR] No se encontró un curso con ese código. Intente nuevamente.");
+                                }
+                                else
+                                {
+                                    cursoValido = true;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("[ERROR] Código de curso no válido. Intente nuevamente.");
+                            }
+                        } while (!cursoValido);
+
+                        // Verificar si el curso ya está asignado a otro profesor
+                        Profesor profesorAnterior = Universidad.Profesores
+                            .FirstOrDefault(p => p.CursosImpartidos.Any(c => c.Codigo == curso.Codigo));
+
+                        if (profesorAnterior != null)
+                        {
+                            // Eliminar el curso del profesor anterior
+                            profesorAnterior.CursosImpartidos.Remove(curso);
+                            Console.WriteLine($"[AVISO] El curso {curso.Nombre} ha sido removido del profesor {profesorAnterior.Nombre}.");
+                        }
+
+                        // Verificar si el profesor ya tiene asignado un curso con el mismo nombre y código
+                        if (profesor.CursosImpartidos.Any(c => c.Nombre == curso.Nombre && c.Codigo == curso.Codigo))
+                        {
+                            Console.WriteLine("[ERROR] El profesor ya tiene asignado un curso con el mismo nombre y código.");
+                        }
+                        else
+                        {
+                            // Asignar el curso al profesor
+                            profesor.CursosImpartidos.Add(curso);
+                            curso.Profesor = profesor;
+                            Console.WriteLine($"[EXITO] El curso {curso.Nombre} ha sido asignado al profesor {profesor.Nombre}.");
+                        }
+
                         break;
 
                     case "3":
+                        Console.WriteLine("Consultar profesores registrados:");
+
                         Console.WriteLine($"\n---------------------");
 
                         if (Universidad.Profesores.Any())
                         {
-                            Console.WriteLine("Profesores registrados:");
+                            Console.WriteLine($"Profesores registrados: ");
                             foreach (var profesorItem in Universidad.Profesores)
                             {
-                                Console.WriteLine($"- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}");
+                                Console.WriteLine($"\n- ID: {profesorItem.Id}, Nombre: {profesorItem.Nombre}, Salario: {profesorItem.Salario}:");
+
+                                if (profesorItem.CursosImpartidos.Count > 0)
+                                {
+                                    Console.WriteLine("  Cursos:");
+                                    foreach (var cursoImpartidoItem in profesorItem.CursosImpartidos)
+                                    {
+                                        Console.WriteLine($"    - Código: {cursoImpartidoItem.Codigo}, Nombre: {cursoImpartidoItem.Nombre}, Profesor: {(cursoImpartidoItem.Profesor != null ? cursoImpartidoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoImpartidoItem.Departamento.Nombre}, Escuela: {cursoImpartidoItem.Escuela.Nombre}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay cursos asociados a este profesor.");
+                                }
                             }
                         }
                         else
@@ -406,9 +591,32 @@ public class Program
                         break;
 
                     case "4":
+                        Console.WriteLine("Consultar cursos impartidos:");
+
+                        Console.WriteLine($"\n---------------------");
+
+                        var cursosRegistrados = Universidad.Escuelas
+                            .SelectMany(escuela => escuela.Cursos)
+                            .ToList();
+
+                        if (cursosRegistrados.Count > 0)
+                        {
+                            Console.WriteLine($"Cursos registrados en la Universidad: ");
+                            foreach (var cursoItem in cursosRegistrados)
+                            {
+                                Console.WriteLine($"\n- Código: {cursoItem.Codigo}, Curso: {cursoItem.Nombre}, Escuela: {cursoItem.Escuela.Nombre}, Departamento: {cursoItem.Departamento.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay cursos registrados en la universidad.");
+                        }
+
+                        Console.WriteLine($"---------------------\n");
+
                         break;
 
-                    case "5":
+                    case "0":
                         volverMenuPrincipal = true; // Opción para retroceder al menú principal
                         break;
 
@@ -431,7 +639,7 @@ public class Program
                 Console.WriteLine("4. Ver cursos registrados");
                 Console.WriteLine("5. Ver departamentos registrados en la universidad");
                 Console.WriteLine("6. Ver escuelas registradas en la universidad");
-                Console.WriteLine("7. Retroceder al menú principal");
+                Console.WriteLine("0. Retroceder al menú principal");
 
                 Console.Write($"\nSeleccione una opción: ");
                 string opcion = Console.ReadLine();
@@ -439,17 +647,43 @@ public class Program
                 switch (opcion)
                 {
                     case "1":
-                        Console.WriteLine("Agregar un nuevo curso:");
-
                         // Ver las escuelas registradas
                         if (Universidad.Escuelas.Count > 0)
                         {
                             Console.WriteLine($"\n---------------------");
 
-                            Console.WriteLine("\nEscuelas registradas: ");
-                            foreach (var escuelaItem in Universidad.Escuelas)
+                            Console.WriteLine("Escuelas registradas: ");
+                            foreach (var escuela in Universidad.Escuelas)
                             {
-                                Console.WriteLine($"- ID: {escuelaItem.Id}, Nombre: {escuelaItem.Nombre}");
+                                Console.WriteLine($"\n- ID: {escuela.Id}, Nombre: {escuela.Nombre}:");
+
+                                // Listado de profesores de la escuela
+                                if (escuela.Profesores.Count > 0)
+                                {
+                                    Console.WriteLine("  Profesores:");
+                                    foreach (var profesor in escuela.Profesores)
+                                    {
+                                        Console.WriteLine($"    - ID: {profesor.Id}, Nombre: {profesor.Nombre}, Salario: {profesor.Salario}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay profesores asociados a esta escuela.");
+                                }
+
+                                // Listado de cursos de la escuela
+                                if (escuela.Cursos.Count > 0)
+                                {
+                                    Console.WriteLine("  Cursos:");
+                                    foreach (var cursoItem in escuela.Cursos)
+                                    {
+                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay cursos asociados a esta escuela.");
+                                }
                             }
 
                             Console.WriteLine($"---------------------\n");
@@ -502,9 +736,9 @@ public class Program
                                         {
                                             Console.WriteLine("[ERROR] El código del curso debe ser un número válido.");
                                         }
-                                        else if (escuelaSeleccionada.Cursos.Any(c => c.Codigo == codigoCursoInt))
+                                        else if (Universidad.Escuelas.Any(e => e.Cursos.Any(c => c.Codigo == codigoCursoInt)))
                                         {
-                                            Console.WriteLine("[ERROR] Ya existe un curso con este código en la escuela.");
+                                            Console.WriteLine("[ERROR] Ya existe un curso con este código en alguna escuela de la universidad.");
                                         }
                                         else
                                         {
@@ -517,10 +751,23 @@ public class Program
                                     {
                                         Console.WriteLine($"\n---------------------");
 
-                                        Console.WriteLine("\nDepartamentos registrados: ");
-                                        foreach (var dep in Universidad.Departamentos)
+                                        Console.WriteLine("Departamentos registrados: ");
+                                        foreach (var departamentoItem in Universidad.Departamentos)
                                         {
-                                            Console.WriteLine($"- ID: {dep.Id}, Nombre: {dep.Nombre}");
+                                            Console.WriteLine($"\n- ID: {departamentoItem.Id}, Nombre: {departamentoItem.Nombre}:");
+
+                                            if (departamentoItem.Cursos.Count > 0)
+                                            {
+                                                Console.WriteLine("  Cursos: ");
+                                                foreach (var cursoItem in departamentoItem.Cursos)
+                                                {
+                                                    Console.WriteLine($"     - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("  No hay cursos asociados a este departamento.");
+                                            }
                                         }
 
                                         Console.WriteLine($"---------------------\n");
@@ -596,7 +843,6 @@ public class Program
                         break;
 
                     case "3":
-                        Console.WriteLine("Consultar curso:");
                         Console.Write("Ingrese el nombre o código del curso a buscar: ");
 
                         string busqueda = Console.ReadLine();
@@ -610,10 +856,10 @@ public class Program
 
                         if (cursosEncontrados.Count > 0)
                         {
-                            Console.WriteLine($"\nCursos encontrados para la búsqueda '{busqueda}':");
+                            Console.WriteLine($"Cursos encontrados para la búsqueda '{busqueda}': ");
                             foreach (var curso in cursosEncontrados)
                             {
-                                Console.WriteLine($"- Curso: {curso.Nombre}, Código: {curso.Codigo}, Escuela: {curso.Escuela.Nombre}, Departamento: {curso.Departamento.Nombre}, Profesor: {(curso.Profesor != null ? curso.Profesor.Nombre : "No asignado")}");
+                                Console.WriteLine($"\n- Código: {curso.Codigo}, Curso: {curso.Nombre}, Escuela: {curso.Escuela.Nombre}, Departamento: {curso.Departamento.Nombre}, Profesor: {(curso.Profesor != null ? curso.Profesor.Nombre : "No asignado")}");
                             }
                         }
                         else
@@ -626,8 +872,6 @@ public class Program
                         break;
 
                     case "4":
-                        Console.WriteLine("Consultar cursos:");
-
                         Console.WriteLine($"\n---------------------");
 
                         var cursosRegistrados = Universidad.Escuelas
@@ -636,10 +880,10 @@ public class Program
 
                         if (cursosRegistrados.Count > 0)
                         {
-                            Console.WriteLine("Cursos registrados en la Universidad:");
+                            Console.WriteLine($"Cursos registrados en la Universidad: ");
                             foreach (var curso in cursosRegistrados)
                             {
-                                Console.WriteLine($"- Curso: {curso.Nombre}, Código: {curso.Codigo}, Escuela: {curso.Escuela.Nombre}, Departamento: {curso.Departamento.Nombre}, Profesor: {(curso.Profesor != null ? curso.Profesor.Nombre : "No asignado")}");
+                                Console.WriteLine($"\n- Código: {curso.Codigo}, Curso: {curso.Nombre}, Escuela: {curso.Escuela.Nombre}, Departamento: {curso.Departamento.Nombre}, Profesor: {(curso.Profesor != null ? curso.Profesor.Nombre : "No asignado")}");
                             }
                         }
                         else
@@ -652,29 +896,27 @@ public class Program
                         break;
 
                     case "5":
-                        Console.WriteLine("Consultar departamentos:");
-
                         Console.WriteLine($"\n---------------------");
 
                         if (Universidad.Departamentos.Count > 0)
                         {
-                            Console.WriteLine("Departamentos registrados en la Universidad:");
+                            Console.WriteLine($"Departamentos registrados en la Universidad: ");
 
                             foreach (var departamentoItem in Universidad.Departamentos)
                             {
-                                Console.WriteLine($"- ID: {departamentoItem.Id}, Nombre: {departamentoItem.Nombre}:");
+                                Console.WriteLine($"\n- ID: {departamentoItem.Id}, Nombre: {departamentoItem.Nombre}:");
 
                                 if (departamentoItem.Cursos.Count > 0)
                                 {
                                     Console.WriteLine("  Cursos:");
                                     foreach (var cursoItem in departamentoItem.Cursos)
                                     {
-                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
+                                        Console.WriteLine($"     - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
                                     }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("    No hay cursos asociados a este departamento.");
+                                    Console.WriteLine("  No hay cursos asociados a este departamento.");
                                 }
                             }
                         }
@@ -687,17 +929,15 @@ public class Program
                         break;
 
                     case "6":
-                        Console.WriteLine("Consultar escuelas:");
-
                         Console.WriteLine($"\n---------------------");
 
                         if (Universidad.Escuelas.Count > 0)
                         {
-                            Console.WriteLine("Escuelas registradas en la Universidad:");
+                            Console.WriteLine("Escuelas registradas en la Universidad: ");
 
                             foreach (var escuela in Universidad.Escuelas)
                             {
-                                Console.WriteLine($"- ID: {escuela.Id}, Nombre: {escuela.Nombre}");
+                                Console.WriteLine($"\n- ID: {escuela.Id}, Nombre: {escuela.Nombre}:");
 
                                 // Listado de profesores de la escuela
                                 if (escuela.Profesores.Count > 0)
@@ -705,7 +945,7 @@ public class Program
                                     Console.WriteLine("  Profesores:");
                                     foreach (var profesor in escuela.Profesores)
                                     {
-                                        Console.WriteLine($"    - ID: {profesor.Id}, Nombre: {profesor.Nombre}, Salario: {profesor.Salario}");
+                                        Console.WriteLine($"     - ID: {profesor.Id}, Nombre: {profesor.Nombre}, Salario: {profesor.Salario}");
                                     }
                                 }
                                 else
@@ -719,7 +959,7 @@ public class Program
                                     Console.WriteLine("  Cursos:");
                                     foreach (var cursoItem in escuela.Cursos)
                                     {
-                                        Console.WriteLine($"    - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
+                                        Console.WriteLine($"     - Código: {cursoItem.Codigo}, Nombre: {cursoItem.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoItem.Departamento.Nombre}, Escuela: {cursoItem.Escuela.Nombre}");
                                     }
                                 }
                                 else
@@ -736,7 +976,7 @@ public class Program
                         Console.WriteLine($"---------------------\n");
                         break;
 
-                    case "7":
+                    case "0":
                         volverMenuPrincipal = true; 
                         break;
 
@@ -746,6 +986,260 @@ public class Program
                 }
             }
         }
+        
+        static void GestionarEstudiantes()
+        {
+            bool volverMenuPrincipal = false;
+            while (!volverMenuPrincipal)
+            {
+                Console.WriteLine($"\n--- Gestión de Estudiantes en {NombreUniversidad} ---");
+                Console.WriteLine("1. Registrar un estudiante a la universidad");
+                Console.WriteLine("2. Inscribir estudiante a un curso");
+                Console.WriteLine("3. Ver estudiante registrados");
+                Console.WriteLine("4. Ver cursos registrados en la universidad");
+                Console.WriteLine("0. Retroceder al menú principal");
 
+                Console.Write($"\nSeleccione una opción: ");
+                string opcion = Console.ReadLine();
+
+                switch (opcion)
+                {
+                    case "1":
+                        string nombreEstudiante = null;
+                        bool nombreEstudianteValido = false;
+
+                        do
+                        {
+                            Console.Write("Ingrese el nombre del estudiante: ");
+                            nombreEstudiante = Console.ReadLine();
+
+                            if (string.IsNullOrWhiteSpace(nombreEstudiante))
+                            {
+                                Console.WriteLine("[AVISO] El nombre del estudiante no puede estar vacío. Inténtelo de nuevo.");
+                            }
+                            else if (Universidad.Estudiantes.Any(p => p.Nombre.Equals(nombreEstudiante, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                Console.WriteLine("[ERROR] Ya existe un estudiante con este nombre en la universidad. Inténtelo de nuevo.");
+                            }
+                            else
+                            {
+                                nombreEstudianteValido = true;
+                            }
+                        } while (!nombreEstudianteValido);
+
+                        string direccionEstudiante = null;
+                        bool direccionEstudianteValido = false;
+
+                        do
+                        {
+                            Console.Write("Ingrese la dirección del estudiante: ");
+                            direccionEstudiante = Console.ReadLine();
+
+                            if (string.IsNullOrWhiteSpace(direccionEstudiante))
+                            {
+                                Console.WriteLine("[AVISO] La dirección del estudiante no puede estar vacía. Inténtelo de nuevo.");
+                            }
+                            else
+                            {
+                                direccionEstudianteValido = true;
+                            }
+                        } while (!direccionEstudianteValido);
+
+                        // Crear y registrar el nuevo estudiante
+                        int idEstudiante = Universidad.Estudiantes.Count + 1;
+                        Estudiante nuevoEstudiante = new Estudiante(idEstudiante, nombreEstudiante, direccionEstudiante);
+
+                        Universidad.Estudiantes.Add(nuevoEstudiante);
+                        Console.WriteLine($"[EXITO] Estudiante {nombreEstudiante} registrado exitosamente.");
+
+                        break;
+                    case "2":
+                        Estudiante estudiante = null;
+                        Curso curso = null;
+
+                        if (Universidad.Estudiantes.Count > 0)
+                        {
+                            while (estudiante == null)
+                            {
+                                Console.WriteLine($"\n---------------------");
+
+                                Console.WriteLine("Estudiantes registrados: ");
+                                foreach (var estudianteItem in Universidad.Estudiantes)
+                                {
+                                    Console.WriteLine($"\n- ID: {estudianteItem.Id}, Nombre: {estudianteItem.Nombre}, Dirección: {estudianteItem.Direccion}:");
+
+                                    // Listado de cursos inscritos del estudiante
+                                    if (estudianteItem.CursosInscritos.Count > 0)
+                                    {
+                                        Console.WriteLine("  Cursos inscritos:");
+                                        foreach (var cursoInscritoItem in estudianteItem.CursosInscritos)
+                                        {
+                                            Console.WriteLine($"     - Código: {cursoInscritoItem.Codigo}, Nombre: {cursoInscritoItem.Nombre}, Profesor: {(cursoInscritoItem.Profesor != null ? cursoInscritoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoInscritoItem.Departamento.Nombre}, Escuela: {cursoInscritoItem.Escuela.Nombre}");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("  No hay cursos inscritos a este estudiante.");
+                                    }
+                                }
+
+                                Console.WriteLine($"---------------------\n");
+
+                                Console.Write("Ingrese el ID del estudiante que desea inscribir a un curso: ");
+                                string idEstudianteInput = Console.ReadLine();
+
+                                if (int.TryParse(idEstudianteInput, out int idEstudianteCurso))
+                                {
+                                    // Verificar si el profesor ya existe en la universidad
+                                    estudiante = Universidad.Estudiantes.FirstOrDefault(p => p.Id == idEstudianteCurso);
+
+                                    if (estudiante == null)
+                                    {
+                                        Console.WriteLine("[ERROR] No se encontró un estudiante con ese ID en la universidad. Intente de nuevo.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("[ERROR] ID de estudiante no válido. Intente de nuevo.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("[ERROR] No hay estudiantes registrados.");
+                            break;
+                        }
+
+                        // Validación del ID del Curso
+
+                        if (Universidad.Escuelas.All(e => e.Cursos.Count > 0))
+                        {
+                            while (curso == null)
+                            {
+                                Console.WriteLine($"\n---------------------");
+
+                                var cursosInscritos = Universidad.Escuelas
+                                    .SelectMany(escuela => escuela.Cursos)
+                                    .ToList();
+
+                                if (cursosInscritos.Count > 0)
+                                {
+                                    Console.WriteLine($"Cursos registrados: ");
+                                    foreach (var cursoItem in cursosInscritos)
+                                    {
+                                        Console.WriteLine($"\n- Código: {cursoItem.Codigo}, Curso: {cursoItem.Nombre}, Escuela: {cursoItem.Escuela.Nombre}, Departamento: {cursoItem.Departamento.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay cursos registrados en la universidad.");
+                                }
+
+                                Console.WriteLine($"---------------------\n");
+
+                                Console.Write("Ingrese el código del curso: ");
+                                string codigoCursoInput = Console.ReadLine();
+
+                                if (int.TryParse(codigoCursoInput, out int codigoCurso))
+                                {
+                                    // Buscar la escuela en la universidad
+                                    curso = Universidad.Escuelas
+                                         .SelectMany(e => e.Cursos)
+                                         .FirstOrDefault(c => c.Codigo == codigoCurso);
+
+                                    if (curso == null)
+                                    {
+                                        Console.WriteLine("[ERROR] No se encontró un curso con ese código.");
+                                    }
+
+                                    // Inscribir al estudiante en el curso si no está ya inscrito
+                                    if (estudiante.CursosInscritos.Any(c => c.Codigo == codigoCurso))
+                                    {
+                                        Console.WriteLine("[ERROR] El estudiante ya está inscrito en este curso.");
+                                    }
+                                    else
+                                    {
+                                        estudiante.CursosInscritos.Add(curso);
+                                        Console.WriteLine($"[EXITO] Estudiante {estudiante.Nombre} inscrito exitosamente en el curso {curso.Nombre}.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("[ERROR] ID de escuela no válido. Intente de nuevo.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("[ERROR] No hay cursos registrados.");
+                        }
+
+                        break;
+                    case "3":
+                        Console.WriteLine($"\n---------------------");
+
+                        if (Universidad.Estudiantes.Count > 0)
+                        {
+                            Console.WriteLine($"Estudiantes registrados en la Universidad: ");
+                            foreach (var estudianteItem in Universidad.Estudiantes)
+                            {
+                                Console.WriteLine($"\n- ID: {estudianteItem.Id}, Nombre: {estudianteItem.Nombre}, Dirección: {estudianteItem.Direccion}:");
+
+                                // Listado de cursos inscritos del estudiante
+                                if (estudianteItem.CursosInscritos.Count > 0)
+                                {
+                                    Console.WriteLine("  Cursos inscritos:");
+                                    foreach (var cursoInscritoItem in estudianteItem.CursosInscritos)
+                                    {
+                                        Console.WriteLine($"     - Código: {cursoInscritoItem.Codigo}, Nombre: {cursoInscritoItem.Nombre}, Profesor: {(cursoInscritoItem.Profesor != null ? cursoInscritoItem.Profesor.Nombre : "No asignado")}, Departamento: {cursoInscritoItem.Departamento.Nombre}, Escuela: {cursoInscritoItem.Escuela.Nombre}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("  No hay cursos inscritos a este estudiante.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay estudiantes registrados en la universidad.");
+                        }
+
+                        Console.WriteLine($"---------------------\n");
+
+                        break;
+
+                    case "4":
+                        Console.WriteLine($"\n---------------------");
+
+                        var cursosRegistrados = Universidad.Escuelas
+                            .SelectMany(escuela => escuela.Cursos)
+                            .ToList();
+
+                        if (cursosRegistrados.Count > 0)
+                        {
+                            Console.WriteLine($"Cursos registrados en la Universidad: ");
+                            foreach (var cursoItem in cursosRegistrados)
+                            {
+                                Console.WriteLine($"\n- Código: {cursoItem.Codigo}, Curso: {cursoItem.Nombre}, Escuela: {cursoItem.Escuela.Nombre}, Departamento: {cursoItem.Departamento.Nombre}, Profesor: {(cursoItem.Profesor != null ? cursoItem.Profesor.Nombre : "No asignado")}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay cursos registrados en la universidad.");
+                        }
+
+                        Console.WriteLine($"---------------------\n");
+
+                        break;
+                    case "0":
+                        volverMenuPrincipal = true;
+                        break;
+                    default:
+                        Console.WriteLine("[ERROR] Opción no válida.");
+                        break;
+                }
+            }
+        }
     }
 }
