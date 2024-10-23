@@ -352,7 +352,7 @@ public class Program
             {
                 Console.WriteLine($"\n--- Gestión de Profesores en {NombreUniversidad} ---");
                 Console.WriteLine("1. Registrar un nuevo profesor a la universidad");
-                Console.WriteLine("2. Asignar curso a un profesor");
+                Console.WriteLine("2. Asignar profesor a un curso");
                 Console.WriteLine("3. Ver profesores registrados");
                 Console.WriteLine("4. Ver cursos impartidos");
                 Console.WriteLine("0. Retroceder al menú principal");
